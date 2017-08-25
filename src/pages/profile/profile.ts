@@ -5,6 +5,7 @@ import { WelcomePage } from '../welcome/welcome';
 
 import { KeycloakService} from '../../services/keycloak/keycloak.service'
 
+import { Events } from 'ionic-angular';
 
 @Component({
   selector: 'page-profile',
@@ -20,7 +21,12 @@ export class ProfilePage {
   jwttoken ='';
 
   constructor(public navCtrl: NavController,
-              public keycloak: KeycloakService) {
+              public keycloak: KeycloakService,
+              public events: Events) {
+
+
+               
+
      console.log ('ProfilePage Constructor()')
 
     if (keycloak.authenticated) {

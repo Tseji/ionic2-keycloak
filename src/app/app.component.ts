@@ -11,6 +11,8 @@ import { TranslateService } from '@ngx-translate/core'
 
 import { KeycloakService } from '../services/keycloak/keycloak.service';
 
+import { Events } from 'ionic-angular';
+
 @Component({
   template: `<ion-nav #content [root]="rootPage"></ion-nav>`
 })
@@ -28,8 +30,27 @@ export class MyApp  {
     platform: Platform,
     private config: Config,
     statusBar: StatusBar,
-    splashScreen: SplashScreen) {
+    splashScreen: SplashScreen, 
+    private keycloak:KeycloakService,
+    public events: Events) {
 
+
+      events.subscribe('KEYCLOAK:INIT', (data) => {
+        // user and time are the same arguments passed in `events.publish(user, time)`
+        alert('KEYCLOAK EVENT Initialized !');
+      });
+
+      
+      events.subscribe("KEYCLOAK:LOGIN", (data) => {
+        // user and time are the same arguments passed in `events.publish(user, time)`
+        alert('KEYCLOAK EVENT Login !');
+      });
+
+      events.subscribe("KEYCLOAK:LOGOUT", (data) => {
+        // user and time are the same arguments passed in `events.publish(user, time)`
+        alert('KEYCLOAK EVENT Logout !');
+      });
+      
     this.initTranslate();
 
     platform.ready().then(() => {
@@ -41,10 +62,11 @@ export class MyApp  {
      console.log("init Keycloak");
   
       KeycloakService.init({ onLoad: 'check-sso', checkLoginIframe: false }).then(() => {
-            if (KeycloakService.keycloakAuth.authenticated) {
+            if (this.keycloak.authenticated()) {
               console.log("--- app componet authenticated ---")
                this.nav.setRoot(ProfilePage);
             } 
+        
       });
 
 

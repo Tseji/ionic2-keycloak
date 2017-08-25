@@ -5,6 +5,8 @@ import { ProfilePage } from '../profile/profile';
 
 import { KeycloakService} from '../../services/keycloak/keycloak.service';
 
+import { Events } from 'ionic-angular';
+
 /**
  * The Welcome Page is a splash page that quickly describes the app,
  * and then directs the user to create an account or log in.
@@ -19,6 +21,10 @@ export class WelcomePage {
 
   constructor(public navCtrl: NavController,
     public keycloak: KeycloakService) {
+
+      
+      
+
   }
 
   login() {

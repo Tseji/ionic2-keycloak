@@ -19,8 +19,6 @@
 
 import { Injectable } from '@angular/core';
 
-
-
 /*
 import * as Keycloak from 'keycloak-js';
 import {
@@ -40,44 +38,116 @@ import { KeycloakAuthorizationPromise } from 'keycloak-js/keycloak-authz';
 
 const keycloak = Keycloak();
 const keycloakAuthz = KeycloakAuthorization(keycloak);*/
-
-/*
-
+import { Events } from 'ionic-angular';
 import * as Keycloak from './keycloak';
-import {
-  KeycloakInstance,
-  KeycloakError,
-  KeycloakFlow,
-  KeycloakInitOptions,
-  KeycloakLoginOptions,
-  KeycloakProfile,
-  KeycloakPromise,
-  KeycloakResponseMode,
-  KeycloakResponseType
-} from './keycloak';
 
- const keycloak = Keycloak();
+ const keycloak = Keycloak({
+  url: 'http://sso.devcont.esquel.cloud/auth',
+  realm: 'master',
+  clientId: 'ionic',
+});
 
 @Injectable()
 export class KeycloakService {
+
+  static _events: Events;
       
-  constructor() {
+  constructor(public events: Events) {
+
+    KeycloakService._events= events;
    
-    
-
-    keycloak.authenticated
-
   }
-  
+ 
+  static init(options?: any): Promise<any> {
+    
+        return new Promise((resolve, reject) => {
+          keycloak.init(options)
+            .success(() => {
+              KeycloakService._events.publish("KEYCLOAK:INIT");
+              resolve();
+            })
+            .error((errorData: any) => {
+              reject(errorData);
+            });
+        });
+      }
 
-}*/
+      authenticated(): boolean {
+         return keycloak.authenticated;
+      }
+    
+      login(): Promise<any> {
+        return new Promise((resolve, reject) => {
+          keycloak.login()
+            .success(() => {
+              KeycloakService._events.publish("KEYCLOAK:LOGIN");
+              resolve();
+            })
+            .error((errorData: any) => {
+              reject(errorData);
+            });
+        })
+      }
+    
+      logout(): Promise<any> {
+        return new Promise((resolve, reject) => {
+          keycloak.logout()
+            .success(() => {
+              KeycloakService._events.publish("KEYCLOAK:LOGOUT");
+              resolve();
+            })
+            .error((errorData: any) => {
+              reject(errorData);
+            });
+        })
+      }
+    
+      account() {
+        keycloak.accountManagement();
+      }
+    
+      register() {
+        keycloak.register();
+      }
+    
+      profile(): Promise<any> {
+        return new Promise((resolve, reject) => {
+          keycloak.loadUserProfile()
+            .success((profile: any) => {
+              resolve(profile);
+            })
+            .error((errorData: any) => {
+              reject(errorData);
+            });
+        })
+      }
+    
+      getToken(): Promise<string> {
+        return new Promise<string>((resolve, reject) => {
+          if (keycloak.token) {
+             keycloak.updateToken(5)
+              .success(() => {
+                resolve(<string>keycloak.token);
+              })
+              .error(() => {
+                reject('Failed to refresh token');
+              });
+          } else {
+            reject('Not loggen in');
+          }
+        });
+      }    
 
+}
+
+/*
 declare var require :any;
 let Keycloak = require("./keycloak"); // load keycloak.js locally
 type KeycloakClient = Keycloak.KeycloakInstance;
 
 @Injectable()
 export class KeycloakService {
+
   static keycloakAuth: KeycloakClient = Keycloak({
     url: 'http://sso.devcont.esquel.cloud/auth',
     realm: 'master',
@@ -125,8 +195,6 @@ export class KeycloakService {
     })
   }
 
-
-
   account() {
     KeycloakService.keycloakAuth.accountManagement();
   }
@@ -163,4 +231,4 @@ export class KeycloakService {
       }
     });
   }
-}
+}*/
