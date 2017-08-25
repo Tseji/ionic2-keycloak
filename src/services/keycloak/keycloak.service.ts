@@ -19,14 +19,68 @@
 
 import { Injectable } from '@angular/core';
 
+
+
+/*
+import * as Keycloak from 'keycloak-js';
+import {
+  KeycloakInstance,
+  KeycloakError,
+  KeycloakFlow,
+  KeycloakInitOptions,
+  KeycloakLoginOptions,
+  KeycloakProfile,
+  KeycloakPromise,
+  KeycloakResponseMode,
+  KeycloakResponseType
+} from 'keycloak-js';
+
+import * as KeycloakAuthorization from 'keycloak-js/keycloak-authz';
+import { KeycloakAuthorizationPromise } from 'keycloak-js/keycloak-authz';
+
+const keycloak = Keycloak();
+const keycloakAuthz = KeycloakAuthorization(keycloak);*/
+
+/*
+
+import * as Keycloak from './keycloak';
+import {
+  KeycloakInstance,
+  KeycloakError,
+  KeycloakFlow,
+  KeycloakInitOptions,
+  KeycloakLoginOptions,
+  KeycloakProfile,
+  KeycloakPromise,
+  KeycloakResponseMode,
+  KeycloakResponseType
+} from './keycloak';
+
+ const keycloak = Keycloak();
+
+@Injectable()
+export class KeycloakService {
+      
+  constructor() {
+   
+    
+
+    keycloak.authenticated
+
+  }
+  
+
+}*/
+
+declare var require :any;
 let Keycloak = require("./keycloak"); // load keycloak.js locally
-type KeycloakClient = KeycloakModule.KeycloakClient;
+type KeycloakClient = Keycloak.KeycloakInstance;
 
 @Injectable()
 export class KeycloakService {
   static keycloakAuth: KeycloakClient = Keycloak({
-    url: 'http://localhost:8080/auth',
-    realm: 'demo',
+    url: 'http://sso.devcont.esquel.cloud/auth',
+    realm: 'master',
     clientId: 'ionic',
   });
 

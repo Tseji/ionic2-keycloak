@@ -1,0 +1,8 @@
+{
+    "realm": "master",
+    "auth-server-url": "http://sso.devcont.esquel.cloud/auth",
+    "ssl-required": "external",
+    "resource": "ionic",
+    "public-client": true,
+    "use-resource-role-mappings": true
+  }

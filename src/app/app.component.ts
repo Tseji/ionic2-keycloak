@@ -9,12 +9,12 @@ import { WelcomePage } from '../pages/welcome/welcome';
 
 import { TranslateService } from '@ngx-translate/core'
 
-import { KeycloakService } from '../keycloak-service/keycloak.service';
+import { KeycloakService } from '../services/keycloak/keycloak.service';
 
 @Component({
   template: `<ion-nav #content [root]="rootPage"></ion-nav>`
 })
-export class MyApp {
+export class MyApp  {
   rootPage = WelcomePage;
 
   @ViewChild(Nav) nav: Nav;
@@ -28,8 +28,7 @@ export class MyApp {
     platform: Platform,
     private config: Config,
     statusBar: StatusBar,
-    splashScreen: SplashScreen,
-    keycloak: KeycloakService) {
+    splashScreen: SplashScreen) {
 
     this.initTranslate();
 
@@ -39,9 +38,17 @@ export class MyApp {
       statusBar.styleDefault();
       splashScreen.hide();
 
-      console.log("init Keycloak");
-      KeycloakService.init({ onLoad: 'check-sso', checkLoginIframe: false });
-    });
+     console.log("init Keycloak");
+  
+      KeycloakService.init({ onLoad: 'check-sso', checkLoginIframe: false }).then(() => {
+            if (KeycloakService.keycloakAuth.authenticated) {
+              console.log("--- app componet authenticated ---")
+               this.nav.setRoot(ProfilePage);
+            } 
+      });
+
+
+     });
   }
 
   initTranslate() {
@@ -59,9 +66,9 @@ export class MyApp {
     });
   }
 
-  openPage(page) {
+  //openPage(page) {
     // Reset the content nav to have just this page
     // we wouldn't want the back button to show in this scenario
-    this.nav.setRoot(page.component);
-  }
+   // this.nav.setRoot(page.component);
+  //////}
 }

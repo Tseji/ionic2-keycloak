@@ -9,8 +9,11 @@
     <h2>{{name}}</h2>
 
     <ion-list inset>
+      <ion-item>{{ 'FIRSTNAME' | translate}}: {{firstname}}</ion-item>
+      <ion-item>{{ 'LASTNAME' | translate}}: {{lastname}}</ion-item>
       <ion-item>{{ 'USERNAME' | translate}}: {{username}}</ion-item>
       <ion-item>{{ 'EMAIL' | translate}}: {{email}}</ion-item>
+      <ion-item>{{ 'TOKEN' | translate}}: {{jwttoken}}</ion-item>
       <ion-item no-lines></ion-item>
       <button ion-item (click)="account()" no-lines text-center>{{ 'ACCOUNT_MANAGEMENT' | translate}}</button>
       <button ion-item (click)="logout()" no-lines text-center>{{ 'LOGOUT' | translate}}</button>

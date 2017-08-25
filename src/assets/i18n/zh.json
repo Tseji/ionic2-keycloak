@@ -1,0 +1,17 @@
+{
+  "BACK_BUTTON_TEXT" : "返回",
+
+  "NAME": "全名",
+  "EMAIL": "电子邮件",
+  "USERNAME": "用户名",
+  "FIRSTNAME": "名字",
+  "LASTNAME" : "姓氏",
+  "PASSWORD": "密码",
+  "LOGIN": "登录",
+  "SIGNUP": "注册",
+  "ACCOUNT_MANAGEMENT": "帐户管理",
+  "LOGOUT": "注销",
+  "TOKEN" : "JWT",
+
+  "WELCOME_INTRO" : "您的下一个伟大的离子应用程序的起点"
+}

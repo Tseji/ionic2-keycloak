@@ -1,7 +1,10 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
-import { FirstRunPage } from '../pages';
-import { KeycloakService } from '../../keycloak-service/keycloak.service'
+
+import { WelcomePage } from '../welcome/welcome';
+
+import { KeycloakService} from '../../services/keycloak/keycloak.service'
+
 
 @Component({
   selector: 'page-profile',
@@ -12,20 +15,36 @@ export class ProfilePage {
   name = '';
   email = '';
   username = '';
+  firstname = '';
+  lastname = '';
+  jwttoken ='';
 
   constructor(public navCtrl: NavController,
-    public keycloak: KeycloakService) {
+              public keycloak: KeycloakService) {
+     console.log ('ProfilePage Constructor()')
 
-    if (keycloak.authenticated()) {
+    if (keycloak.authenticated) {
+       console.log(this.keycloak.profile);
       keycloak.profile()
         .then((profile: any) => {
           this.name = `${profile.lastName} ${profile.firstName}`;
           this.email = profile.email;
           this.username = profile.username;
+          this.firstname = profile.firstName;
+          this.lastname = profile.lastName;
         })
         .catch((error: any) => {
           console.log(error)
         });
+
+        keycloak.getToken()
+        .then((token: any) => {
+          this.jwttoken = token;
+        })
+        .catch((error: any) => {
+          console.log(error)
+        });
+
     }
 
   }
@@ -35,10 +54,12 @@ export class ProfilePage {
   }
 
   logout() {
+    console.log(" Profile Page Logout() ")
+    
     this.keycloak.logout()
       .then(() => {
         console.log("logout")
-        this.navCtrl.popToRoot();
+        this.navCtrl.setRoot(WelcomePage);
       })
       .catch((error: any) => {
         console.log(error)

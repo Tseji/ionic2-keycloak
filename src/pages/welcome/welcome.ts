@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 
-import { MainPage } from '../pages';
+import { ProfilePage } from '../profile/profile';
 
-import { KeycloakService } from '../../keycloak-service/keycloak.service';
+import { KeycloakService} from '../../services/keycloak/keycloak.service';
 
 /**
  * The Welcome Page is a splash page that quickly describes the app,
@@ -25,7 +25,7 @@ export class WelcomePage {
     this.keycloak.login()
       .then(() => {
         if (this.keycloak.authenticated()) {
-          this.navCtrl.push(MainPage)
+          this.navCtrl.push(ProfilePage)
         }
       })
       .catch((error: any) => {
