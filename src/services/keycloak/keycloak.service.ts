@@ -41,11 +41,7 @@ const keycloakAuthz = KeycloakAuthorization(keycloak);*/
 import { Events } from 'ionic-angular';
 import * as Keycloak from './keycloak';
 
- const keycloak = Keycloak({
-  url: 'http://sso.devcont.esquel.cloud/auth',
-  realm: 'master',
-  clientId: 'ionic',
-});
+const keycloak = Keycloak("../../assets/keycloak.json")
 
 @Injectable()
 export class KeycloakService {
