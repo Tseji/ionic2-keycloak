@@ -41,7 +41,7 @@ const keycloakAuthz = KeycloakAuthorization(keycloak);*/
 import { Events } from 'ionic-angular';
 import * as Keycloak from './keycloak';
 
-const keycloak = Keycloak("../../assets/keycloak.json")
+const keycloak = Keycloak("assets/keycloak.json")
 
 @Injectable()
 export class KeycloakService {
